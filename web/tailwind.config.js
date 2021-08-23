@@ -1,0 +1,33 @@
+module.exports = {
+  purge: {
+    content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    safelist: [
+    ],
+  },
+  darkMode: false, // or 'media' or 'class'
+  variants: {
+    extend: {
+      height: ["group-hover"],
+    },
+  },
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio")],
+  theme: {
+    extend: {
+      colors: {
+        gray: {
+          DEFAULT: "#737373",
+          50: "#FAFAFA",
+          100: "#F5F5F5",
+          200: "#E5E5E5",
+          300: "#D4D4D4",
+          400: "#A3A3A3",
+          500: "#737373",
+          600: "#525252",
+          700: "#404040",
+          800: "#262626",
+          900: "#171717",
+        },
+      },
+    },
+  },
+};

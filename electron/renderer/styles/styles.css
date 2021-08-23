@@ -1,0 +1,7 @@
+p {
+  @apply text-sm text-gray-300  my-4;
+}
+
+strong {
+  @apply font-bold text-gray-200;
+}
