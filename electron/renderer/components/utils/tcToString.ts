@@ -1,5 +1,4 @@
 export const tcToString = (tc) => {
-  console.log("tc: ", tc);
   return (
     tc.hours.toString().padStart(2, "0") +
     ":" +

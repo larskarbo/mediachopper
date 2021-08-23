@@ -18,10 +18,13 @@
     "ffprobe-static": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^10.0.0",
+    "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
     "react-dropzone": "^11.3.4",
     "react-icons": "^4.2.0",
-    "smpte-timecode": "^1.2.3"
+    "round-to": "^5.0.0",
+    "smpte-timecode": "^1.2.3",
+    "use-local-storage-state": "^10.0.0"
   },
   "devDependencies": {
     "@types/ffprobe": "^1.1.2",

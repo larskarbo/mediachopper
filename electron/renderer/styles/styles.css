@@ -2,6 +2,18 @@ p {
   @apply text-sm text-gray-300  my-4;
 }
 
+.instructions h1 {
+  @apply text-2xl text-gray-100  mt-4;
+}
+
+.instructions h2 {
+  @apply text-xl text-gray-100  mt-8;
+}
+
 strong {
   @apply font-bold text-gray-200;
+}
+
+table th {
+  @apply text-left
 }

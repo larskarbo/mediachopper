@@ -1,6 +1,9 @@
+import { FfprobeData } from "fluent-ffmpeg";
+
 export type Video = {
   path: string;
-  stream: any;
+  frameRate: number;
+  stream: FfprobeData["streams"][0];
 };
 
 export type Segment = {
@@ -9,6 +12,9 @@ export type Segment = {
   duration: number;
   fromTime: string;
   toTime: string;
+  type: string;
+  text: string;
+  selected: boolean;
 };
 
 export type StartRenderProps = {

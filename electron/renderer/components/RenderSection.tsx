@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
-import { useInput } from "./utils/useInput";
+import clsx from "clsx";
 import electron from "electron";
+import React, { useEffect, useRef, useState } from "react";
 import { StartRenderProps } from "./utils/types";
-import Button from "./Button";
+import { useInput } from "./utils/useInput";
+import { VinciButton } from "./VinciButton";
+import { VinciInput } from "./VinciInput";
 const ipcRenderer = electron.ipcRenderer;
 
 export default function RenderSection({ video, segments }) {
-  console.log("segments: ", segments);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(null);
   const baseNameInput = useInput("clip");
@@ -36,7 +36,6 @@ export default function RenderSection({ video, segments }) {
 
     // register `ping-pong` event
     ipcRenderer.on("renderProgress", (event, data) => {
-      console.log("data: ", data);
       setProgress({
         currentIndex: data.currentIndex,
         totalNumber: data.totalNumber,
@@ -44,7 +43,6 @@ export default function RenderSection({ video, segments }) {
       });
     });
     ipcRenderer.on("renderDone", (event, data) => {
-      console.log("data: ", data);
       setLoading(null);
       setProgress(null);
     });
@@ -60,17 +58,12 @@ export default function RenderSection({ video, segments }) {
 
   return (
     <div>
-      <p>
-        The video is <strong>{video.stream.duration} </strong>seconds long.
-      </p>
-      <p>
-        We found <strong>{segments.length} clips</strong>.
-      </p>
-
-      <div className="text-sm">
-        <div>Output name:</div>
-        <div className="flex items-center gap-4">
-          <input className="my-4" type="text" {...baseNameInput} />
+      <div className="border border-black rounded py-8">
+        <div className={clsx("flex items-center text-xs py-2 gap-2 pr-8  ")}>
+          <div className="text-gray-400 w-32 text-right">Output name:</div>
+          <VinciInput {...baseNameInput} />
+        </div>
+        <div className="text-xs px-8 my-2">
           <span className="italic text-xs">
             Example: {baseNameInput.value}0001.mp4, {baseNameInput.value}
             0002.mp4, {baseNameInput.value}0003.mp4
@@ -81,7 +74,7 @@ export default function RenderSection({ video, segments }) {
         <div>Output folder:</div>
         <div className="flex items-center gap-4">
           <input onChange={e => {
-            console.log(e.target.value);
+            
           }} type="file" hidden ref={folderRef} />
           <button onClick={() => {
             folderRef.current.click()
@@ -92,10 +85,11 @@ export default function RenderSection({ video, segments }) {
         </div>
       </div>
      */}
-
-      <Button loading={loading} onClick={render}>
-        Split files!
-      </Button>
+      <div className="flex mt-4 justify-end">
+        <VinciButton disabled={!video || !segments} onClick={render}>
+          Start!
+        </VinciButton>
+      </div>
 
       {loading && (
         <div className="flex flex-col gap-2 my-4">
@@ -107,6 +101,7 @@ export default function RenderSection({ video, segments }) {
             )}
           </div>
           <progress
+            className="w-full rounded"
             value={(progress?.currentIndex || 0) + 1}
             max={segments.length + 1}
           ></progress>

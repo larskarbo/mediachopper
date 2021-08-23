@@ -27,7 +27,7 @@ export const initExtra = () => {
       ffprobePath: ffprobePath,
     });
 
-    const videoInfo = await promisify(ffmpeg.ffprobe)(file.path).catch(
+    const videoInfo = await promisify<string, ffmpeg.FfprobeData>(ffmpeg.ffprobe)(file.path).catch(
       (err) => {
         event.sender.send("error", {
           err,
@@ -57,7 +57,8 @@ export const initExtra = () => {
       for (const segment of segments) {
         await new Promise((resolve) => {
           // fs.copyFileSync(p, "out/" + slugify(names[i]) + ".avi")
-          const fileName = `${baseName}${i.toString().padStart(4, "0")}.${extension}`;
+          const name = segment.text ? segment.text : `${baseName}${i.toString().padStart(4, "0")}`
+          const fileName = `${name}${extension}`;
           event.sender.send("renderProgress", {
             currentIndex: i,
             totalNumber: segments.length,

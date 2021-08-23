@@ -1,205 +1,252 @@
+import clsx from "clsx";
 import electron from "electron";
-
-import Head from "next/head";
+import { FfprobeData } from "fluent-ffmpeg";
 import * as Papa from "papaparse";
 import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import RenderSection from "../components/RenderSection";
-import { UploadBox } from "../components/UploadBox";
-import { Segment, Video } from "../components/utils/types";
+import roundTo from "round-to";
 import Timecode from "smpte-timecode";
-import { tcToString } from "../components/utils/tcToString";
 import Layout from "../components/Layout";
+import RenderSection from "../components/RenderSection";
+import { tcToString } from "../components/utils/tcToString";
+import { Segment, Video } from "../components/utils/types";
+import { VinciH2 } from "../components/VinciH2";
+import { FileField } from "./../components/FileField";
 
 const ipcRenderer = electron.ipcRenderer;
+const getNormalizedTimecode = (tString:string, frameRate:Timecode.FRAMERATE) => {
+  const tc = Timecode(tString, frameRate);
+  if(tc.hours === 1){
+    tc.subtract(frameRate * 60 * 60)
+  }
+  return tc
+}
 
 function Chopper() {
   const [selectedVideoFile, setSelectedVideoFile] = useState(null);
   const [selectedIndexFile, setSelectedIndexFile] = useState(null);
   const [segments, setSegments] = useState<Segment[]>(null);
   const [video, setVideo] = useState<Video>(null);
-  console.log("segments: ", segments);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const rawFile = acceptedFiles[0];
-    console.log("rawFile: ", rawFile);
-
+  const handleVideo = (rawFile) => {
     setSelectedVideoFile(rawFile);
 
     ipcRenderer.send("videometa", { path: rawFile.path });
-
-    // const fileURL = URL.createObjectURL(rawFile)
-    // videoRef.current.src = fileURL
-  }, []);
+  };
 
   React.useEffect(() => {
-    // like componentDidMount()
-
-    // register `ping-pong` event
     ipcRenderer.on("error", (event, data) => {
-      console.log("error: ", data);
       alert(data.err);
     });
-    ipcRenderer.on("videometaStartLoad", (event, data) => {
-      console.log("data: ", data);
-      // alert("videometa start load +" + JSON.stringify(data))
-    });
-    ipcRenderer.on("videometa", (event, data) => {
-      console.log("data: ", data);
-      if (data?.ffprobe?.streams?.[0]) {
-        setVideo({
-          path: data.path,
-          stream: data.ffprobe.streams[0],
-        });
+    ipcRenderer.on(
+      "videometa",
+      (event, data: { ffprobe: FfprobeData; path: string }) => {
+        if (data?.ffprobe?.streams?.[0]) {
+          setVideo({
+            path: data.path,
+            stream: data.ffprobe.streams[0],
+            frameRate: parseFloat(
+              data.ffprobe.streams[0].r_frame_rate.split("/")[0]
+            ),
+          });
+        }
       }
-    });
+    );
 
     return () => {
-      // like componentWillUnmount()
-
-      // unregister it
       ipcRenderer.removeAllListeners("videometa");
+      ipcRenderer.removeAllListeners("error");
     };
   }, []);
 
-  const onDropIndex = useCallback(async (acceptedFiles) => {
-    const rawFile = acceptedFiles[0];
-    console.log("rawFile: ", rawFile);
+  console.log("video: ", video);
 
-    // setVideo(rawFile.name);
+  const handleIndex = useCallback(
+    async (rawFile) => {
+      if (!video) {
+        console.log("video: ", video);
+        alert("Please select a video first");
+        return;
+      }
 
-    setSelectedIndexFile(rawFile);
-    const contents: string = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        console.log("loaded");
-        if (typeof e.target.result != "string") {
-          throw new Error("Couldn't read file...");
+      const frameRate: Timecode.FRAMERATE = video.frameRate;
+
+      setSelectedIndexFile(rawFile);
+      const contents: string = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (typeof e.target.result != "string") {
+            throw new Error("Couldn't read file...");
+          }
+          resolve(e.target.result);
+        };
+        reader.readAsText(rawFile);
+      });
+
+      const results = Papa.parse<any>(contents, { header: true });
+
+      const relevant = results.data
+        .filter((t) => t["Record In"])
+        .map((a) => ({
+          ...a,
+          recordIn: getNormalizedTimecode(a["Record In"], frameRate),
+          recordOut: getNormalizedTimecode(a["Record Out"], frameRate),
+        }));
+
+      const firstTimeCode = () => getNormalizedTimecode(relevant[0]["Record In"], frameRate);
+
+      const better = relevant.map((element, i) => {
+        // const fromTime = element.recordIn.subtract(firstTimeCode());
+        const fromTime = element.recordIn;
+        let toTime = element.recordOut;
+
+        let diff = getNormalizedTimecode(toTime, frameRate).subtract(getNormalizedTimecode(fromTime, frameRate));
+
+        if (diff.frameCount == 1) {
+          if (i < relevant.length - 1) {
+            toTime = relevant[i + 1].recordIn;
+          } else {
+            toTime = Timecode("00:00:00:00", frameRate).add(video.stream.nb_frames);
+            console.log('video.stream: ', video.stream);
+            // Timecode.fromSeconds()
+          }
         }
-        resolve(e.target.result);
-      };
-      reader.readAsText(rawFile);
-    });
+        diff = getNormalizedTimecode(toTime, frameRate).subtract(getNormalizedTimecode(fromTime, frameRate));
 
-    const results = Papa.parse<any>(contents, { header: true });
+        let type = "Marker"
+        if(element.V.includes("V")){
+          type = "Video"
+        }
+        if(element.V.includes("A")){
+          type = "Audio"
+        }
 
-    const relevant = results.data.filter((t) => t.V == "V1");
-    console.log("relevant: ", relevant);
+        const segment: Segment = {
+          from: fromTime,
+          to: toTime,
+          duration: diff.seconds + diff.frames / video.frameRate,
+          fromTime: tcToString(fromTime),
+          toTime: tcToString(toTime),
+          type,
+          text: element.Notes || "",
+          selected: true,
+        };
+        return segment;
+      });
 
-    const firstTimeCode = () => Timecode(relevant[0]["Record In"], 30);
+      setSegments(better);
 
-    const better = relevant.map((element) => {
-      console.log("element: ", element);
-      const fromTime = Timecode(element["Record In"], 30).subtract(
-        firstTimeCode()
-      );
-      console.log("fromTime: ", fromTime);
-      const toTime = Timecode(element["Record Out"], 30).subtract(
-        firstTimeCode()
-      );
-      const diff = Timecode(toTime).subtract(Timecode(fromTime));
-      const segment: Segment = {
-        from: fromTime,
-        to: toTime,
-        duration: diff.seconds + diff.frames / 30,
-        fromTime: tcToString(fromTime),
-        toTime: tcToString(toTime),
-      };
-      return segment;
-    });
-
-    setSegments(better);
-
-    // const fileURL = URL.createObjectURL(rawFile)
-    // videoRef.current.src = fileURL
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  const {
-    getRootProps: getRootPropsIndex,
-    getInputProps: getInputPropsIndex,
-    isDragActive: isDragActiveIndex,
-  } = useDropzone({ onDrop: onDropIndex });
+      // const fileURL = URL.createObjectURL(rawFile)
+      // videoRef.current.src = fileURL
+    },
+    [video]
+  );
 
   return (
     <Layout>
-      <div className="w-full py-12">
-        <Section title="Source Video">
-          <div className="grid gap-8 grid-cols-2">
-            <div>
-              <UploadBox
-                text="Drop a video file here."
-                getInputProps={getInputProps}
-                getRootProps={getRootProps}
-                isDragActive={isDragActive}
-                selectedFile={selectedVideoFile}
-                reset={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setSelectedVideoFile(null);
-                }}
-              />
-
-              {video && video.path}
-            </div>
-            <div>
-              <p>
-                In <strong>DaVinci Resolve</strong> go to{" "}
-                <strong>Deliver</strong> and export the entire timeline with
-                your preferred render configuration.
-              </p>
-              <p>Select the rendered file here.</p>
-            </div>
+      <div className="w-full">
+        <VinciH2>Source video</VinciH2>
+        <div className="border border-black rounded py-8">
+          <div className="text-xs px-8 mb-2">
+            The video file that you want to batch split. (mp4, mov, avi, etc...)
           </div>
-        </Section>
-
-        <hr className="border-t-1 mx-12 border-black my-8" />
-
-        <Section title="Split Info CSV">
-          <div className="w-full grid gap-8 grid-cols-2">
+          <FileField
+            onSelectFile={handleVideo}
+            selectedFile={selectedVideoFile}
+            text={"Source video file"}
+          />
+          {video?.stream?.duration && (
             <div>
-              <UploadBox
-                text="Drop a timeline export file here."
-                getInputProps={getInputPropsIndex}
-                getRootProps={getRootPropsIndex}
-                isDragActive={isDragActiveIndex}
-                selectedFile={selectedIndexFile}
-                reset={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setSelectedIndexFile(null);
-                }}
-              />
-              {segments && segments.length}
+              <div className="text-xs px-8 my-2">
+                ✅ The selected video is{" "}
+                <strong>{video.stream.duration} </strong>
+                seconds long.
+              </div>
+              <div className="text-xs px-8 my-2">
+                ✅ The selected video has a frame rate of{" "}
+                <strong>{video.frameRate} </strong> FPS.
+              </div>
             </div>
+          )}
+        </div>
+        <VinciH2>Timeline Info</VinciH2>
+        <div className="border border-black rounded py-8">
+          <FileField
+            disabled={!selectedVideoFile}
+            onSelectFile={handleIndex}
+            text={"Timeline info"}
+            selectedFile={selectedIndexFile}
+          />
+          {segments?.length > 0 && (
+            <>
+              <div className="text-xs px-8 my-2">
+                ✅ We found <strong>{segments.length} possible segments</strong>
+                .
+              </div>
+              <div className="px-8">
+                <table
+                  className=" text-xs bg-gray-900 w-full  overflow-y-scroll"
+                  style={{
+                    maxHeight: "100px",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th>Duration</th>
+                      <th>Type</th>
+                      <th>Text</th>
+                      <th>Select</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {segments?.map((segment, i) => (
+                      <tr
+                        className={clsx(
+                          "",
+                          i % 2 ? "bg-gray-800" : "bg-gray-700"
+                        )}
+                        key={i}
+                      >
+                        <td>{i}</td>
+                        <td>{segment.fromTime}</td>
+                        <td>{segment.toTime}</td>
+                        <td>{roundTo(segment.duration, 1)} s</td>
+                        <td>{segment.type}</td>
+                        <td>{segment.text}</td>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={segment.selected}
+                            onChange={(e) => {
+                              setSegments(
+                                segments.map((s, ii) => {
+                                  if (i === ii) {
+                                    return {
+                                      ...s,
+                                      selected: e.target.checked,
+                                    };
+                                  }
+                                  return s;
+                                })
+                              );
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+        <hr className="border-t-1  border-black my-8 " />
 
-            <div>
-              <p>
-                In <strong>DaVinci Resolve</strong>, go to{" "}
-                <strong>Media</strong> and right click on your timeline. In the
-                context menu, press <strong>Timelines</strong> {">"}{" "}
-                <strong>Export</strong> {">"} <strong>Edit Index...</strong>
-              </p>
-              <img
-                className="border border-gray-600 rounded"
-                src="/export-index.png"
-              />
-              <p>Select the exported CSV file here.</p>
-            </div>
-          </div>
-        </Section>
-
-        <hr className="border-t-1 mx-12 border-black my-8 " />
-
-        <div className="w-full px-12">
-          <div>
-            <h2 className="font- text-gray-50 text-sm">Render Clips</h2>
-            {video && segments ? (
-              <RenderSection video={video} segments={segments} />
-            ) : (
-              <p>Select a source video and split info csv first.</p>
-            )}
-          </div>
+        <div>
+          <VinciH2>Chop Segments</VinciH2>
+          <RenderSection video={video} segments={segments} />
         </div>
       </div>
     </Layout>
@@ -207,12 +254,3 @@ function Chopper() {
 }
 
 export default Chopper;
-
-function Section({ title, children }) {
-  return (
-    <div className="w-full   px-12">
-      <h2 className="font- text-gray-50 text-sm">{title}</h2>
-      {children}
-    </div>
-  );
-}
