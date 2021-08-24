@@ -13,7 +13,7 @@ import VinciFormField from "./VinciFormField";
 import { VinciH2 } from "./VinciH2";
 import VinciSelect from "./VinciSelect";
 
-const supportedFiles = [
+export const supportedFiles = [
   {
     title: "DaVinci Resolve Edit Index (csv)",
     icon: MemoResolveIcon,

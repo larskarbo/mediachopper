@@ -1,13 +1,13 @@
 p {
-  @apply text-sm text-gray-300  my-4;
+  @apply text-sm text-gray-300 mb-4;
 }
 
 .instructions h1 {
-  @apply text-2xl text-gray-100  mt-4;
+  @apply text-4xl text-gray-100  mt-4 mb-4;
 }
 
 .instructions h2 {
-  @apply text-xl text-gray-100  mt-8;
+  @apply text-xl text-gray-100  mt-8 mb-4;
 }
 
 strong {

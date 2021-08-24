@@ -10,7 +10,7 @@ function Home() {
     <Layout>
       <div className="flex flex-col items-center">
         <img src="/logo_dark.svg" className="w-full max-w-md mx-auto mb-8" />
-
+        
         <Box
           href="/instructions"
           Icon={FaBookOpen}

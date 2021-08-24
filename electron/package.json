@@ -26,6 +26,7 @@
     "react-dropzone": "^11.3.4",
     "react-icons": "^4.2.0",
     "react-markdown": "^7.0.0",
+    "react-player": "^2.9.0",
     "round-to": "^5.0.0",
     "smpte-timecode": "^1.2.3",
     "use-local-storage-state": "^10.0.0"
