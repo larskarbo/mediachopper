@@ -11,6 +11,9 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.0",
+    "@heroicons/react": "^1.0.4",
+    "@sindresorhus/slugify": "^2.1.0",
     "clsx": "^1.1.1",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.0.0",

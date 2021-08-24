@@ -4,6 +4,7 @@ export type Video = {
   path: string;
   frameRate: number;
   stream: FfprobeData["streams"][0];
+  extension: string;
 };
 
 export type Segment = {

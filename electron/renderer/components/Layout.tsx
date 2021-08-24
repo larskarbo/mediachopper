@@ -22,7 +22,7 @@ export default function Layout({ children }) {
       icon: FaHelicopter,
     },
   ];
-  const [currentTab, setCurrentTab] = useState(0);
+  // const [currentTab, setCurrentTab] = useState(0);
 
   const router = useRouter();
 

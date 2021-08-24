@@ -38,6 +38,7 @@ export const initExtra = () => {
     event.sender.send("videometa", {
       ffprobe: videoInfo,
       path: file.path,
+      extension: path.extname(file.path)
     });
     // await mkdirp(path.join(__dirname, "../temp"));
     // fs.writeFileSync(

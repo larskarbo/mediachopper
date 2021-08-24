@@ -1,17 +1,37 @@
 import clsx from "clsx";
 import electron from "electron";
 import React, { useEffect, useRef, useState } from "react";
-import { StartRenderProps } from "./utils/types";
+import { Segment, StartRenderProps, Video } from "./utils/types";
 import { useInput } from "./utils/useInput";
 import { VinciButton } from "./VinciButton";
+import VinciFormField from "./VinciFormField";
+import { VinciH2 } from "./VinciH2";
 import { VinciInput } from "./VinciInput";
+import VinciSelect, { VinciSelectOption } from "./VinciSelect";
+import slugify from "@sindresorhus/slugify";
+
 const ipcRenderer = electron.ipcRenderer;
 
-export default function RenderSection({ video, segments }) {
+const outputStrategies: VinciSelectOption[] = [
+  {
+    title: "Lossless quick splitting. Use same format as source.",
+  },
+];
+
+export default function RenderSection({
+  video,
+  segments,
+}: {
+  video: Video;
+  segments: Segment[];
+}) {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(null);
   const baseNameInput = useInput("clip");
   const folderRef = useRef(null);
+  const [renderStrategy, setRenderStrategy] = useState(outputStrategies[0]);
+  const [markerNames, setMarkerNames] = useState(true);
+  const [slugifyNames, setSlugifyNames] = useState(true);
 
   useEffect(() => {
     if (folderRef.current) {
@@ -56,19 +76,70 @@ export default function RenderSection({ video, segments }) {
     };
   }, []);
 
+  const outputFilenames = segments
+    ?.filter((s) => s.selected)
+    .map((s, i) => {
+      const extension = video.extension;
+      if (markerNames && s.text?.length > 0) {
+        if (slugifyNames) {
+          return slugify(s.text) + extension;
+        }
+        return s.text + extension;
+      }
+      return baseNameInput.value + i.toString().padStart(4, "0") + extension;
+    }) || []
+
   return (
-    <div>
+    <div
+      className={clsx(
+        "",
+        video && segments && segments.length > 0 ? "opacity-100" : "opacity-50"
+      )}
+    >
+      <VinciH2>3. Output settings</VinciH2>
       <div className="border border-black rounded py-8">
-        <div className={clsx("flex items-center text-xs py-2 gap-2 pr-8  ")}>
-          <div className="text-gray-400 w-32 text-right">Output name:</div>
+        <VinciFormField label="Render strategy">
+          <VinciSelect
+            onSelect={(v) =>
+              setRenderStrategy(
+                outputStrategies.find((f) => f.title === v.title)
+              )
+            }
+            className="w-full"
+            options={outputStrategies}
+            selected={renderStrategy}
+          />
+        </VinciFormField>
+        <VinciFormField label="Output base name">
           <VinciInput {...baseNameInput} />
-        </div>
-        <div className="text-xs px-8 my-2">
-          <span className="italic text-xs">
-            Example: {baseNameInput.value}0001.mp4, {baseNameInput.value}
-            0002.mp4, {baseNameInput.value}0003.mp4
-          </span>
-        </div>
+        </VinciFormField>
+        <VinciFormField label="">
+          <input
+            checked={markerNames}
+            onChange={(e) => setMarkerNames(e.target.checked)}
+            type="checkbox"
+          />{" "}
+          Use marker names when possible
+        </VinciFormField>
+        <VinciFormField label="">
+          <input
+            checked={!markerNames ? false : slugifyNames}
+            onChange={(e) => setSlugifyNames(e.target.checked)}
+            type="checkbox"
+            disabled={!markerNames}
+          />{" "}
+          Slugify output file names
+        </VinciFormField>
+
+        <VinciFormField label="Outputs">
+          {segments && segments.length && (
+            <div className="text-gray-300">
+              {" "}
+              {segments.length} files:{" "}
+              <span className="italic  text-xs">{outputFilenames.join()}</span>
+            </div>
+          )}
+        </VinciFormField>
       </div>
       {/* <div className="text-sm">
         <div>Output folder:</div>
