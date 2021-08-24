@@ -1,25 +1,14 @@
-import {} from "./../components/utils/getNormalizedTimecode";
-import clsx from "clsx";
-import { FfprobeData } from "fluent-ffmpeg";
-import * as Papa from "papaparse";
-import React, { useCallback, useState } from "react";
-import roundTo from "round-to";
-import Timecode from "smpte-timecode";
+import React, { useState } from "react";
+import { useChopper } from "../components/chopper-context";
 import Layout from "../components/Layout";
 import RenderSection from "../components/RenderSection";
-import VinciSelect from "../components/VinciSelect";
-import { tcToString } from "../components/utils/tcToString";
-import { Segment, Video } from "../components/utils/types";
-import { VinciH2 } from "../components/VinciH2";
-import { FileField } from "./../components/FileField";
-import MemoResolveIcon from "../components/icons/ResolveIcon";
-import VinciFormField from "../components/VinciFormField";
 import SegmentInfoSection from "../components/SegmentInfoSection";
 import SourceVideoSection from "../components/SourceVideoSection";
+import { Segment, Video } from "../components/utils/types";
+import {} from "./../components/utils/getNormalizedTimecode";
 
 function Chopper() {
-  const [segments, setSegments] = useState<Segment[]>(null);
-  const [video, setVideo] = useState<Video>(null);
+  const { segments, setSegments, video, setVideo } = useChopper();
 
   console.log("video: ", video);
 

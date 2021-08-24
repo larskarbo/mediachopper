@@ -4,6 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import roundTo from "round-to";
 import Timecode from "smpte-timecode";
+import { useChopper } from "./chopper-context";
 import { FileField } from "./FileField";
 import MemoResolveIcon from "./icons/ResolveIcon";
 import { getNormalizedTimecode } from "./utils/getNormalizedTimecode";
@@ -22,7 +23,7 @@ export const supportedFiles = [
 
 export default function SegmentInfoSection({ video, setSegments, segments }) {
   const [fileType, setFileType] = useState(supportedFiles[0]);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const {selectedTimelineFile, setSelectedTimelineFile} = useChopper()
 
   const handleIndex = useCallback(
     async (acceptedFiles) => {
@@ -33,7 +34,7 @@ export default function SegmentInfoSection({ video, setSegments, segments }) {
       }
       const rawFile: File = acceptedFiles[0];
 
-      setSelectedFile(rawFile);
+      setSelectedTimelineFile(rawFile);
 
       const frameRate: Timecode.FRAMERATE = video.frameRate;
 
@@ -146,7 +147,7 @@ export default function SegmentInfoSection({ video, setSegments, segments }) {
           getInputProps={getInputProps}
           isDragActive={isDragActive}
           text={"Timeline info"}
-          selectedFile={selectedFile}
+          selectedFile={selectedTimelineFile}
         />
         {segments?.length > 0 && (
           <>

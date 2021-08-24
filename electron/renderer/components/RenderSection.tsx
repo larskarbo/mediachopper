@@ -136,7 +136,7 @@ export default function RenderSection({
             <div className="text-gray-300">
               {" "}
               {segments.length} files:{" "}
-              <span className="italic  text-xs">{outputFilenames.join()}</span>
+              <span className="italic  text-xs">{outputFilenames.join(", ")}</span>
             </div>
           )}
         </VinciFormField>

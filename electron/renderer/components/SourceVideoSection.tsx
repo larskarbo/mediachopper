@@ -3,6 +3,7 @@ import electron from "electron";
 import { FfprobeData } from "fluent-ffmpeg";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useChopper } from "./chopper-context";
 import { FileField } from "./FileField";
 import { Video } from "./utils/types";
 import { VinciH2 } from "./VinciH2";
@@ -16,7 +17,7 @@ export default function SourceVideoSection({
   video: Video;
   setVideo: (video: Video) => void;
 }) {
-  const [selectedVideoFile, setSelectedVideoFile] = useState(null);
+  const {selectedVideoFile, setSelectedVideoFile} = useChopper()
 
   const handleVideo = (acceptedFiles) => {
     const rawFile: File = acceptedFiles[0];
