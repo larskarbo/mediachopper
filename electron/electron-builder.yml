@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: no.larskarbo.mediachopper
+productName: MediaChopper
+copyright: Copyright © 2021 Lars Karbo
 directories:
   output: dist
   buildResources: resources
