@@ -6,8 +6,6 @@
     "buildnexport": "next build && next export",
     "startserver": "next start",
     "export": "next export",
-    "preview": "remotion preview --port 3440 src/video/index.tsx PersonateVideo out.mp4",
-    "render": "remotion render src/video/index.tsx PersonateVideo out.mp4",
     "check-types": "tsc  --pretty --noEmit"
   },
   "dependencies": {

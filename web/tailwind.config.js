@@ -5,10 +5,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   variants: {
     extend: {
-      height: ["group-hover"],
+      // height: ["group-hover"],
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/aspect-ratio")],
+  plugins: [],
   theme: {
     extend: {
       colors: {
