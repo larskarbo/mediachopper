@@ -29,6 +29,6 @@
     "allowUnusedLabels": true,
     "alwaysStrict": false // default
   },
-  "include": ["src", "api"],
+  "include": ["src", "api", "public/Nav.tsx"],
   "exclude": ["node_modules"]
 }

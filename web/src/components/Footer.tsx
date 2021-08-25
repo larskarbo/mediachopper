@@ -6,7 +6,7 @@ const navigation = {
   ],
   programs: [
     { name: "MediaChopper", href: "/" },
-    
+
     // { name: 'Documentation', href: '#' },
     // { name: 'Guides', href: '#' },
     // { name: 'API Status', href: '#' },
@@ -139,6 +139,9 @@ export default function Footer() {
             </div>
           </div>
           <div className="mt-8 xl:mt-0">
+            <p className="mt-4 text-sm text-gray-300">
+              MediaChopper is a video editing platform that allows you to export individual clips from Davinci Resolve.
+            </p>
             {/* <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
               Subscribe to our newsletter
             </h3>

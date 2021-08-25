@@ -11,12 +11,13 @@ import {
 import ffmpegPath from "ffmpeg-static";
 import { path as ffprobePath } from "ffprobe-static";
 import { promisify } from "util";
-
+import { autoUpdater } from "electron-updater"
 
 
 export const initExtra = () => {
   // process.env.FFPROBE_PATH = ffprobePath;
   // process.env.FFMPEG_PATH = ffmpegPath;
+  autoUpdater.checkForUpdatesAndNotify()
 
   ffmpeg.setFfprobePath(ffprobePath.replace("app.asar", "app.asar.unpacked"));
   ffmpeg.setFfmpegPath(ffmpegPath.replace("app.asar", "app.asar.unpacked"));

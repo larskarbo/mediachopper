@@ -2,15 +2,7 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-  @apply text-gray-50;
-}
-
-html {
-  overflow-y: scroll;
-}
-
-.center {
-  @apply justify-center items-center;
+  @apply text-gray-100;
 }
 
 :root {
@@ -30,32 +22,4 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: white;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
-}
-
-.loading:after {
-  content: " .";
-  animation: dots 1s steps(5, end) infinite;
-}
-
-@keyframes dots {
-  0%,
-  20% {
-    color: rgba(0, 0, 0, 0);
-    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
-  }
-  40% {
-    color: #fbbf25;
-    text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
-  }
-  60% {
-    text-shadow: 0.25em 0 0 #fbbf25, 0.5em 0 0 rgba(0, 0, 0, 0);
-  }
-  80%,
-  100% {
-    text-shadow: 0.25em 0 0 #fbbf25, 0.5em 0 0 #fbbf25;
-  }
-}
-
-a.blue {
-  @apply hover:underline text-blue-400
 }

@@ -31,7 +31,8 @@ const config = {
   publish: {
     provider: "github",
     publishAutoUpdate: true,
-    repo: "larskarbo/mediachopper",
+    owner: "larskarbo",
+    repo: "mediachopper",
   },
 };
 
