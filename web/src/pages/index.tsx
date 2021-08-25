@@ -1,8 +1,14 @@
+import clsx from "clsx";
+import { useState } from "react";
+import { FaDownload } from "react-icons/fa";
+import Button from "../components/Button";
 import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
 import SEO from "../components/Seo";
 
 export default function Index() {
+  const [showSeg, setShowSeg] = useState(true);
+
   return (
     <Layout>
       <SEO
@@ -53,38 +59,114 @@ export default function Index() {
       </div>
 
       <div className=" py-8">
+        <h2 className="text-3xl font-extrabold text-center tracking-tight mb-4">Download</h2>
+        <div className="flex gap-12">
+          <div className=" flex justify-center items-center flex-col">
+            <img src="/icon.png" className="w-32" />
+            <div className="font-bold text-center mt-2 text-xs">MediaChopper.app</div>
+          </div>
+          <div className="text-sm">
+            <p>Current version: v1.0.1</p>
+            <div className="flex gap-4">
+              <Button className="my-2" icon={<FaDownload />}>
+                Mac (Intel)
+              </Button>
+              <Button className="my-2" icon={<FaDownload />}>
+                Mac (arm)
+              </Button>
+            </div>
+            <div className="flex gap-4">
+              <Button className="my-2" icon={<FaDownload />}>
+                Windows (64-bit)
+              </Button>
+              <Button className="my-2" icon={<FaDownload />}>
+                Windows (32-bit)
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" py-8">
         <h2 className="text-3xl font-extrabold text-center tracking-tight mb-4">Use Cases</h2>
         <ul className=" flex flex-col gap-1 list-inside list-disc text-gray-100 text-sm">
-          <li><strong>Stock Footage.</strong> Keep all different clips on the same timeline.</li>
-          <li><strong>Course Creation.</strong> Keep all video lessons on the same timeline. Apply audio effects to everything</li>
-          <li><strong>Custom Workflows.</strong> Export based on markers or segments.</li>
+          <li>
+            <strong>Stock Footage.</strong> Keep all different clips on the same timeline.
+          </li>
+          <li>
+            <strong>Course Creation.</strong> Keep all video lessons on the same timeline. Apply audio effects to
+            everything
+          </li>
+          <li>
+            <strong>Custom Workflows.</strong> Export based on markers or segments.
+          </li>
         </ul>
 
-        <div className="grid grid-cols-2">
+        {/* <div className=" flex justify-center pt-8 shadow-sm rounded-md">
+          <button
+            type="button"
+            className={clsx(
+              "relative inline-flex items-center px-4 py-2 rounded-l-md border",
+              "border-gray-200  text-sm font-medium text-gray-200  ",
+              showSeg ? "bg-gray-900 font-bold" : "bg-gray-700 hover:bg-gray-800"
+              )}
+              onClick={() => setShowSeg(true)}
+          >
+            Segments
+          </button>
+          <button
+            type="button"
+            className={clsx(
+              "-ml-px ",
+              "relative inline-flex items-center px-4 py-2 rounded-r-md border",
+              "border-gray-200 text-sm font-medium text-gray-200  ",
+              !showSeg ? "bg-gray-900 font-bold" : "bg-gray-700 hover:bg-gray-800"
+              )}
+              onClick={() => setShowSeg(false)}
+          >
+            Markers
+          </button>
+        </div> */}
+
+        <div className="grid grid-cols-2 gap-8 my-16">
           <div>
-            <div>Make this...</div>
-            <img src="/comparer/this1seg.png" />
+            <div className="text-xl my-8 font-bold tracking-tight">Make this …</div>
+            <img className="rounded border border-gray-400" src={`/comparer/this1seg.png`} />
+            <div className="p-1 text-sm text-gray-300">DaVinci Resolve project with many segments</div>
           </div>
           <div>
-            <div>...become this</div>
-            {/* <img src="/comparer/this1seg.png" /> */}
+            <div className="text-xl my-8 font-bold tracking-tight">… become this</div>
+            <img className="rounded border border-gray-400" src={`/comparer/this2seg.png`} />
+            <div className="p-1 text-sm text-gray-300">Splitted files with "clip" as basename</div>
+          </div>
+        </div>
 
+        <div className="grid grid-cols-2 gap-8 my-16">
+          <div>
+            <div className="text-xl my-8 font-bold tracking-tight">Make this …</div>
+            <img className="rounded border border-gray-400" src={`/comparer/this1mar.png`} />
+            <div className="p-1 text-sm text-gray-300">DaVinci Resolve project with many markers</div>
+          </div>
+          <div>
+            <div className="text-xl my-8 font-bold tracking-tight">… become this</div>
+            <img className="rounded border border-gray-400" src={`/comparer/this2mar.png`} />
+            <div className="p-1 text-sm text-gray-300">Splitted files with marker names as filenames</div>
           </div>
         </div>
       </div>
 
-
       <div className=" py-8">
         <h2 className="text-3xl font-extrabold text-center tracking-tight mb-4">How does it work?</h2>
-        <ul className=" flex flex-col gap-1 list-inside list-disc text-gray-100 text-sm">
-          <li><strong>Stock footage.</strong> Keep all different clips on the same timeline.</li>
-          <li><strong>Course creation.</strong> Keep all video lessons on the same timeline. Apply audio effects to everything</li>
-          <li>Export based on markers.</li>
-        </ul>
+        <div>
+          MediaChopper reads metadata files from your editor and split the output file based on your preferences.
+        </div>
+        <img src="/explanation.svg" className="w-full mx-auto bg-gray-800 rounded my-8 max-w-lg" />
       </div>
-      <img src="/explanation.svg" className="w-full bg-gray-800 rounded my-8 max-w-lg" />
-      <div className="text-center px-4 py-24 flex flex-col items-center">
-        Hey! MediaChopper is a video editing platform that allows you to export individual clips from Davinci Resolve.
+
+      <div className=" py-8">
+        <h2 className="text-3xl font-extrabold text-center tracking-tight mb-4">Which programs does it work with?</h2>
+        <div>
+          Right now it only works with <strong>DaVinci Resolve</strong>, but we are working on adding more!
+        </div>
       </div>
     </Layout>
   );

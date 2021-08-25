@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { FaBookOpen, FaHelicopter, FaHome } from "react-icons/fa";
 
+import { version } from "../../package.json";
+
 export default function Layout({ children }) {
   const tabs = [
     {
@@ -28,7 +30,12 @@ export default function Layout({ children }) {
 
   console.log("router.pathname: ", router.pathname);
   return (
-    <div className="h-screen max-h-screen  flex flex-col">
+    <div className="h-screen relative max-h-screen  flex flex-col">
+      <div className="absolute top-1 right-2 z-10 text-gray-400 flex gap-2 text-xs">
+        <div>version {version}</div>
+        <a className="hover:underline" target="_blank" href="https://mediachopper.io">website</a>
+      </div>
+
       <div className="flex-1 overflow-y-scroll px-24 py-12">{children}</div>
       <footer className="h-12 flex-shrink-0 bg-gray-900  border-t-2 border-black flex justify-center">
         {tabs.map((t) => {

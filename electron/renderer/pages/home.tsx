@@ -7,10 +7,11 @@ import Link from "next/link";
 
 function Home() {
   return (
+    
     <Layout>
       <div className="flex flex-col items-center">
         <img src="/logo_dark.svg" className="w-full max-w-md mx-auto mb-8" />
-        
+    
         <Box
           href="/instructions"
           Icon={FaBookOpen}
@@ -25,6 +26,7 @@ function Home() {
         />
       </div>
     </Layout>
+    
   );
 }
 
