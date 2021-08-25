@@ -1,8 +1,6 @@
 module.exports = {
   purge: {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
-    safelist: [
-    ],
   },
   darkMode: false, // or 'media' or 'class'
   variants: {
