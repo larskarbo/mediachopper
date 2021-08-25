@@ -1,3 +1,4 @@
+import PlausibleProvider from "next-plausible";
 import Head from "next/head";
 import "notyf/notyf.min.css";
 import React from "react";
@@ -5,7 +6,6 @@ import { SWRConfig } from "swr";
 import "../styles.css";
 import "../tailwind.css";
 import { fetcher } from "../utils/request";
-
 
 function MyApp({ Component, pageProps, config }) {
   return (
@@ -18,15 +18,15 @@ function MyApp({ Component, pageProps, config }) {
           fetcher: fetcher,
         }}
       >
-        {/* <PlausibleProvider domain="post"> */}
-        <Head>
-          <meta property="og:site_name" content="PostCut" />
-        </Head>
+        <PlausibleProvider domain="mediachopper.io">
+          <Head>
+            <meta property="og:site_name" content="PostCut" />
+          </Head>
 
-        <div className="min-h-screen">
-          <Component {...pageProps} />
-        </div>
-        {/* </PlausibleProvider> */}
+          <div className="min-h-screen">
+            <Component {...pageProps} />
+          </div>
+        </PlausibleProvider>
       </SWRConfig>
     </>
   );

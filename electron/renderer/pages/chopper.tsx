@@ -6,7 +6,7 @@ import SegmentInfoSection from "../components/SegmentInfoSection";
 import SourceVideoSection from "../components/SourceVideoSection";
 import { Segment, Video } from "../components/utils/types";
 import {} from "./../components/utils/getNormalizedTimecode";
-
+import {} from "electron-builder"
 function Chopper() {
   const { segments, setSegments, video, setVideo } = useChopper();
 
