@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "electron-updater": "^4.3.9"
+  }
+}

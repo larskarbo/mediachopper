@@ -3008,7 +3008,7 @@ ffmpeg-static@^4.4.0:
 
 ffprobe-static@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.npmjs.org/ffprobe-static/-/ffprobe-static-3.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/ffprobe-static/-/ffprobe-static-3.0.0.tgz#479689c8a237987beca5627968f3d87429bf569d"
   integrity sha512-LZ1Sj4RHS95t/ReZtRbCmMEWDDl7cfIMwmhNgCZcdtOgRlAHaGGOupoc166Q9AV+T7lXnUvu5HYczcsn69c6fw==
 
 file-selector@^0.2.2:

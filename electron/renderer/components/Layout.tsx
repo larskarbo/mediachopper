@@ -34,7 +34,7 @@ export default function Layout({ children }) {
         {tabs.map((t) => {
           const active = router.pathname == t.path;
           return (
-            <Link href={t.path}>
+            <Link key={t.path} href={t.path}>
               <button
                 className={clsx(
                   "w-36 h-full flex flex-col border-b-2 justify-around pt-1 items-center text-xs group",
