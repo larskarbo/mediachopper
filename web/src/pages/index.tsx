@@ -4,14 +4,14 @@ import { FaDownload } from "react-icons/fa";
 import Button from "../components/Button";
 import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
-import SEO from "../components/Seo";
+import { QuickSeo } from "next-quick-seo";
 
 export default function Index() {
   const [showSeg, setShowSeg] = useState(true);
 
   return (
     <Layout>
-      <SEO
+      <QuickSeo
         title={"MediaChopper"}
         // description={
         //   ""
