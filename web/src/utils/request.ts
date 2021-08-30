@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getErrorMessage } from "../../../server/utils/getErrorMessage";
+import { getErrorMessage } from "get-error-message";
 import { Notyf } from "notyf";
 
 // Create an instance of Notyf

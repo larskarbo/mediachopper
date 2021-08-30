@@ -1,1 +1,0 @@
-{"url":"http://lipsync-asg-1-1714209815.us-east-1.elb.amazonaws.com:80/generate","method":"POST","data":{"video_reference_url":"https://dl.airtable.com/.attachments/6e9844fb764a100496a7313a75f25c3d/dde680cd/david.mp4","audio_url":"https://green-fog.s3.eu-central-1.amazonaws.com/audio_concats/01s7i8kyk2.wav","offset":0},"timeout":5000}

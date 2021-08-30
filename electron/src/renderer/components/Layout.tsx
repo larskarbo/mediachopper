@@ -2,7 +2,8 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaBookOpen, FaHelicopter, FaHome } from 'react-icons/fa';
 
-import { version } from '../../../package.json';
+import pjson from '../../../package.json';
+const { version } = pjson;
 import Link from './Link';
 
 export default function Layout({ children }) {

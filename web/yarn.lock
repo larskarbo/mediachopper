@@ -1494,6 +1494,11 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.npmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+get-error-message@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/get-error-message/-/get-error-message-1.0.0.tgz#4c089e844a3f3dfd4de404d8bc5e35c8808f4d02"
+  integrity sha512-r6idMFXHMHY1Z0byAfgWeEMfsN0eYgUJySNbZmpKRbK9lNxGp1pQVjvFk3loqC4jcGISrFDucNG4h2RQQr7UGA==
+
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.1.1.tgz"
