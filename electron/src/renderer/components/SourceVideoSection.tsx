@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-// import { FfprobeData } from "fluent-ffmpeg";
+import { FfprobeData } from "fluent-ffmpeg";
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useChopper } from './chopper-context';
@@ -22,19 +22,19 @@ export default function SourceVideoSection({
     const rawFile: File = acceptedFiles[0];
     setSelectedVideoFile(rawFile);
 
-    ipcRenderer.send('videometa', { path: rawFile.path });
+    ipcRenderer.videoMeta({ path: rawFile.path });
   };
 
   React.useEffect(() => {
-    ipcRenderer.on('error', (event, data) => {
+    ipcRenderer.on('error', ( data) => {
       alert(data.err);
     });
     ipcRenderer.on(
       'videometa',
       (
-        event,
+        
         data: {
-          ffprobe: any; //FfprobeData;
+          ffprobe: FfprobeData;
           path: string;
           extension: string;
         }

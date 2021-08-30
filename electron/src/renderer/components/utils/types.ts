@@ -1,15 +1,16 @@
-// import { FfprobeData } from "fluent-ffmpeg";
+import { FfprobeData } from "fluent-ffmpeg";
+import Timecode from "smpte-timecode";
 
 export type Video = {
   path: string;
   frameRate: number;
-  stream: any// FfprobeData["streams"][0];
+  stream: FfprobeData["streams"][0];
   extension: string;
 };
 
 export type Segment = {
-  from: any;
-  to: any;
+  from: Timecode.TimecodeObject;
+  to: Timecode.TimecodeObject;
   duration: number;
   fromTime: string;
   toTime: string;

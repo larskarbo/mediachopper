@@ -2,11 +2,14 @@
  * @type {import("electron-builder").Configuration}
  */
 
-const config = {
+module.exports = {
   productName: 'MediaChopper',
   appId: 'no.larskarbo.mediachopper',
   asar: true,
-  asarUnpack: '**\\*.{node,dll}',
+  asarUnpack: [
+    '**\\*.{node,dll}',
+    // '**node_modules/ffmpeg-static/*'
+  ],
   files: ['dist', 'node_modules', 'package.json'],
   afterSign: '.erb/scripts/notarize.js',
   mac: {
@@ -15,6 +18,10 @@ const config = {
     entitlements: 'assets/entitlements.mac.plist',
     entitlementsInherit: 'assets/entitlements.mac.plist',
     gatekeeperAssess: false,
+    extraResources: [
+      'node_modules/ffprobe-static/bin/darwin/${arch}/ffprobe',
+      'node_modules/ffmpeg-static/ffmpeg',
+    ],
   },
   dmg: {
     contents: [
@@ -32,10 +39,18 @@ const config = {
   },
   win: {
     target: ['nsis'],
+    extraResources: [ 
+      'node_modules/ffprobe-static/bin/win/${arch}/ffprobe',//TODO test
+      'node_modules/ffmpeg-static/ffmpeg',
+    ],
   },
   linux: {
     target: ['AppImage'],
     category: 'Development',
+    extraResources: [ 
+      'node_modules/ffprobe-static/bin/linux/${arch}/ffprobe',//TODO test
+      'node_modules/ffmpeg-static/ffmpeg',
+    ],
   },
   directories: {
     app: 'build/app',
@@ -50,4 +65,3 @@ const config = {
     repo: 'mediachopper',
   },
 };
-module.exports = config;

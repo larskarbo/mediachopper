@@ -4,7 +4,6 @@
   "devDependencies": {
   },
   "scripts": {
-    "prepare": "husky install",
     "start": "vercel dev",
     "preinstall": "echo \"Don't add packages here\" && exit 1"
   }

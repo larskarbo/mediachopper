@@ -8,7 +8,7 @@ import SourceVideoSection from '../components/SourceVideoSection';
 function Chopper() {
   const { segments, setSegments, video, setVideo } = useChopper();
 
-  console.log('video: ', video);
+  
 
   return (
     <Layout>
