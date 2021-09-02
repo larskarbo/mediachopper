@@ -1,9 +1,6 @@
 module.exports = {
-  future: {
-    webpack5: true,
-  },
   images: {
-    domains: ["localhost", "dl.airtable.com", "api.rudeboys.io"],
+    domains: ["localhost", "dl.airtable.com", "s3.us-west-2.amazonaws.com"],
   },
   poweredByHeader: false,
 };

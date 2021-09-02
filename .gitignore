@@ -1,7 +1,6 @@
 node_modules
 *.log
 .next
-app
 dist
 
 # Logs
@@ -129,6 +128,7 @@ dist
 logs
 *.log
 
+
 # Runtime data
 pids
 *.pid
@@ -144,9 +144,6 @@ node_modules
 
 # OSX
 .DS_Store
-
-build/app/dist
-build/release
 .erb/dll
 
 .idea

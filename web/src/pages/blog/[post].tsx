@@ -1,21 +1,21 @@
 /* eslint-disable no-case-declarations */
-import { Page } from "@notionhq/client/build/src/api-types";
 import Link from "next/link";
 import React, { Fragment } from "react";
+import { getPlainText } from ".";
 import { QuickSeo } from "../../../../../components/next-quick-seo/dist";
 import { Layout } from "../../components/Layout";
-import { getBlocks, getDatabase, getPage } from "../../utils/notion";
+import { getBlocks, getDatabase, getIdFromSlug, getPage } from "../../utils/notion";
+import { NotionText, renderBlock } from "../../utils/NotionText";
 
-export default function Post({page, blocks}) {
+export default function Post({ page, blocks, id }) {
+  console.log('id: ', id);
   return (
     <Layout>
-      <div>horse</div>
-
       <QuickSeo title={page.properties.Name.title[0].plain_text} />
 
-      <article className={""}>
+      <article className={"w-full"}>
         <h1 className={""}>
-          <Text text={page.properties.Name.title} />
+          <NotionText text={page.properties.Name.title} />
         </h1>
         <section>
           {blocks.map((block) => (
@@ -30,116 +30,20 @@ export default function Post({page, blocks}) {
   );
 }
 
-export const Text = ({ text }) => {
-  if (!text) {
-    return null;
-  }
-  return text.map((value, i) => {
-    const {
-      annotations: { bold, code, color, italic, strikethrough, underline },
-      text,
-    } = value;
-    return (
-      <span
-        key={i}
-        className={[
-          bold ? "font-bold" : "",
-          code ? "font-mono" : "",
-          italic ? "italic" : "",
-          strikethrough ? "line-through" : "",
-          underline ? "underline" : "",
-        ].join(" ")}
-        style={color !== "default" ? { color } : {}}
-      >
-        {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
-      </span>
-    );
-  });
-};
-
-const renderBlock = (block) => {
-  const { type, id } = block;
-  const value = block[type];
-
-  switch (type) {
-    case "paragraph":
-      return (
-        <p>
-          <Text text={value.text} />
-        </p>
-      );
-    case "heading_1":
-      return (
-        <h1>
-          <Text text={value.text} />
-        </h1>
-      );
-    case "heading_2":
-      return (
-        <h2>
-          <Text text={value.text} />
-        </h2>
-      );
-    case "heading_3":
-      return (
-        <h3>
-          <Text text={value.text} />
-        </h3>
-      );
-    case "bulleted_list_item":
-    case "numbered_list_item":
-      return (
-        <li>
-          <Text text={value.text} />
-        </li>
-      );
-    case "to_do":
-      return (
-        <div>
-          <label htmlFor={id}>
-            <input type="checkbox" id={id} defaultChecked={value.checked} /> <Text text={value.text} />
-          </label>
-        </div>
-      );
-    case "toggle":
-      return (
-        <details>
-          <summary>
-            <Text text={value.text} />
-          </summary>
-          {value.children?.map((block) => (
-            <React.Fragment key={block.id}>{renderBlock(block)}</React.Fragment>
-          ))}
-        </details>
-      );
-    case "child_page":
-      return <p>{value.title}</p>;
-    case "image":
-      const src = value.type === "external" ? value.external.url : value.file.url;
-      const caption = value.caption ? value.caption?.[0]?.plain_text : "";
-      return (
-        <figure>
-          <img src={src} alt={caption} />
-          {caption && <figcaption>{caption}</figcaption>}
-        </figure>
-      );
-    default:
-      return `❌ Unsupported block (${type === "unsupported" ? "unsupported by Notion API" : type})`;
-  }
-};
-
 export const getStaticPaths = async () => {
   const database = await getDatabase();
   return {
-    paths: database.map((page) => ({ params: { post: page.id } })),
+    paths: database.map((page) => ({ params: { post: getPlainText(page.properties.slug) } })),
     fallback: true,
   };
 };
 
 export const getStaticProps = async (context) => {
   const { post } = context.params;
-  const page = await getPage(post);
-  const blocks = await getBlocks(post);
+
+  const id = await getIdFromSlug(post);
+  const page = await getPage(id);
+  const blocks = await getBlocks(id);
 
   // Retrieve block children for nested blocks (one level deep), for example toggle blocks
   // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
@@ -164,7 +68,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       page,
-      blocks: blocksWithChildren,
+      blocks: blocksWithChildren
     },
     revalidate: 1,
   };

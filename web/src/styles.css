@@ -23,3 +23,41 @@ select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+article {
+  @apply text-gray-200 text-lg
+}
+
+article h1 {
+  @apply text-5xl mb-16 font-bold leading-tight text-white
+}
+article h2 {
+  @apply text-4xl mb-8 mt-20 font-medium leading-tight text-white
+}
+article h3 {
+  @apply text-2xl mb-8 mt-16 font-bold leading-tight text-white
+}
+
+article p {
+  @apply  my-8
+}
+
+article blockquote {
+  @apply  mb-8
+}
+
+
+article a {
+  @apply  text-blue-400 font-extrabold
+}
+
+article blockquote p {
+  @apply  my-0
+}
+
+article li {
+  @apply  mb-4
+}
+
+article img {
+}

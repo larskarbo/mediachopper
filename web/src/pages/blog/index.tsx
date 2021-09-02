@@ -3,8 +3,13 @@ import { Layout } from "../../components/Layout";
 import { Client } from "@notionhq/client";
 import { getDatabase } from "../../utils/notion";
 import Link from "next/link";
-import { Text } from "./[post]";
-
+import { NotionText } from "../../utils/NotionText";
+export const getPlainText = (cell) => {
+  if(cell?.type == "title"){
+    return cell?.title?.[0]?.plain_text
+  }
+  return cell?.rich_text?.[0]?.plain_text || ""
+}
 export const getStaticProps = async () => {
   const database = await getDatabase();
 
@@ -17,6 +22,7 @@ export const getStaticProps = async () => {
 };
 
 export default function Blog({ posts }) {
+  console.log('posts: ', posts);
   return (
     <Layout>
       <div>Posts</div>
@@ -29,9 +35,9 @@ export default function Blog({ posts }) {
         return (
           <li key={post.id} className={""}>
             <h3 className={""}>
-              <Link href={`/blog/${post.id}`}>
+              <Link href={`/blog/${getPlainText(post.properties.slug)}`}>
                 <a>
-                  <Text text={post.properties.Name.title} />
+                  <NotionText text={post.properties.Name.title} />
                 </a>
               </Link>
             </h3>

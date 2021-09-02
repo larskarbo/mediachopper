@@ -4,7 +4,7 @@
 
 module.exports = {
   productName: 'MediaChopper',
-  appId: 'no.larskarbo.mediachopper',
+  appId: 'io.mediachopper.app',
   asar: true,
   asarUnpack: [
     '**\\*.{node,dll}',
