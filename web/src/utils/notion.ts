@@ -1,5 +1,6 @@
 import { Client } from "@notionhq/client";
-import forceEnv from "force-env"
+import { Filter } from "@notionhq/client/build/src/api-types";
+import forceEnv from "force-env";
 
 const notion = new Client({
   auth: forceEnv("NOTION_TOKEN"),
@@ -7,14 +8,32 @@ const notion = new Client({
 
 const DB_ID = "5e0383030b774ca886b568a5111ad8c7";
 
+const filters: Filter[] = [
+  {
+    property: "project",
+    select: {
+      equals: "MediaChopper",
+    },
+  },
+  {
+    property: "published",
+    checkbox: {
+      equals: true,
+    },
+  },
+  {
+    property: "published_date",
+    date: {
+      is_not_empty: true,
+    },
+  },
+]
+
 export const getDatabase = async () => {
   const response = await notion.databases.query({
     database_id: DB_ID,
     filter: {
-      property: "project",
-      select: {
-        equals: "MediaChopper",
-      },
+      and: filters,
     },
   });
   return response.results;
@@ -25,12 +44,7 @@ export const getIdFromSlug = async (slug) => {
     database_id: DB_ID,
     filter: {
       and: [
-        {
-          property: "project",
-          select: {
-            equals: "MediaChopper",
-          },
-        },
+        ...filters,
         {
           property: "slug",
           text: {
@@ -40,7 +54,7 @@ export const getIdFromSlug = async (slug) => {
       ],
     },
   });
-  return response.results[0].id;
+  return response.results?.[0].id;
 };
 
 export const getPage = async (pageId) => {
@@ -55,3 +69,5 @@ export const getBlocks = async (blockId) => {
   });
   return response.results;
 };
+
+// const isValid =

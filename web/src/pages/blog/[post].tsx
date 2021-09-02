@@ -8,6 +8,10 @@ import { NotionText, renderBlock } from "../../utils/NotionText";
 import { QuickSeo } from "next-quick-seo";
 
 export default function Post({ page, blocks }) {
+  console.log('page: ', page);
+  if(typeof page == "undefined"){
+    return "404 not found"
+  }
   return (
     <Layout>
       <QuickSeo title={page.properties.Name.title[0].plain_text} />
@@ -31,16 +35,22 @@ export default function Post({ page, blocks }) {
 
 export const getStaticPaths = async () => {
   const database = await getDatabase();
+  const paths = database.map((page) => ({ params: { post: getPlainText(page.properties.slug) } }))
+  console.log('paths: ', paths);
   return {
-    paths: database.map((page) => ({ params: { post: getPlainText(page.properties.slug) } })),
+    paths: paths,
     fallback: true,
   };
 };
 
 export const getStaticProps = async (context) => {
   const { post } = context.params;
-
   const id = await getIdFromSlug(post);
+  if(!id){
+    return {
+      notFound: true
+    }
+  }
   const page = await getPage(id);
   const blocks = await getBlocks(id);
 
@@ -67,7 +77,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       page,
-      blocks: blocksWithChildren,
+      blocks: blocksWithChildren
     },
     revalidate: 1,
   };
