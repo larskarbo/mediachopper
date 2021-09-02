@@ -6,8 +6,8 @@ import { Layout } from "../../components/Layout";
 import { getBlocks, getDatabase, getIdFromSlug, getPage } from "../../utils/notion";
 import { NotionText, renderBlock } from "../../utils/NotionText";
 import { QuickSeo } from "next-quick-seo";
-export default function Post({ page, blocks, id }) {
-  console.log("id: ", id);
+
+export default function Post({ page, blocks }) {
   return (
     <Layout>
       <QuickSeo title={page.properties.Name.title[0].plain_text} />
