@@ -1,12 +1,10 @@
-import clsx from "clsx";
-import { useState } from "react";
+import axios from "axios";
+import { endsWith } from "lodash";
+import { QuickSeo } from "next-quick-seo";
 import { FaDownload } from "react-icons/fa";
 import Button from "../components/Button";
 import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
-import { QuickSeo } from "next-quick-seo";
-import axios from "axios";
-import { endsWith } from "lodash";
 
 export const getStaticProps = async () => {
   const latest_release = await axios
@@ -24,7 +22,6 @@ export const getStaticProps = async () => {
 export default function Index({ latest_release }) {
   console.log("latest_release: ", latest_release);
   const macRelease = latest_release?.assets.find((asset) => endsWith(asset.name, ".dmg"));
-  const [showSeg, setShowSeg] = useState(true);
 
   return (
     <Layout>
@@ -153,7 +150,7 @@ export default function Index({ latest_release }) {
           <div>
             <div className="text-xl my-8 font-bold tracking-tight">… become this</div>
             <img className="rounded border border-gray-400" src={`/comparer/this2seg.png`} />
-            <div className="p-1 text-sm text-gray-300">Splitted files with "clip" as basename</div>
+            <div className="p-1 text-sm text-gray-300">Splitted files with &quot;clip&quot; as basename</div>
           </div>
         </div>
 

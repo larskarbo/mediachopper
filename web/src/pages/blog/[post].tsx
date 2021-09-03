@@ -1,84 +1,18 @@
 /* eslint-disable no-case-declarations */
-import Link from "next/link";
-import React, { Fragment } from "react";
-import { getPlainText } from ".";
+import { Article, getStaticPathsPost, getStaticPropsPost } from "@larskarbo/cms-tools";
+import React from "react";
 import { Layout } from "../../components/Layout";
-import { getBlocks, getDatabase, getIdFromSlug, getPage } from "../../utils/notion";
-import { NotionText, renderBlock } from "../../utils/NotionText";
-import { QuickSeo } from "next-quick-seo";
 
-export default function Post({ page, blocks }) {
-  console.log('page: ', page);
-  if(typeof page == "undefined"){
-    return "404 not found"
-  }
+export default function Post({ articleData }) {
   return (
     <Layout>
-      <QuickSeo title={page.properties.Name.title[0].plain_text} />
-
-      <article className={"w-full"}>
-        <h1 className={""}>
-          <NotionText text={page.properties.Name.title} />
-        </h1>
-        <section>
-          {blocks.map((block) => (
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
-          ))}
-          <Link href="/">
-            <a className={""}>← Go home</a>
-          </Link>
-        </section>
-      </article>
+      <Article
+        articleData={articleData}
+      />
     </Layout>
   );
 }
 
-export const getStaticPaths = async () => {
-  const database = await getDatabase();
-  const paths = database.map((page) => ({ params: { post: getPlainText(page.properties.slug) } }))
-  console.log('paths: ', paths);
-  return {
-    paths: paths,
-    fallback: true,
-  };
-};
+export const getStaticPaths = getStaticPathsPost;
 
-export const getStaticProps = async (context) => {
-  const { post } = context.params;
-  const id = await getIdFromSlug(post);
-  if(!id){
-    return {
-      notFound: true
-    }
-  }
-  const page = await getPage(id);
-  const blocks = await getBlocks(id);
-
-  // Retrieve block children for nested blocks (one level deep), for example toggle blocks
-  // https://developers.notion.com/docs/working-with-page-content#reading-nested-blocks
-  const childBlocks = await Promise.all(
-    blocks
-      .filter((block) => block.has_children)
-      .map(async (block) => {
-        return {
-          id: block.id,
-          children: await getBlocks(block.id),
-        };
-      })
-  );
-  const blocksWithChildren = blocks.map((block) => {
-    // Add child blocks if the block should contain children but none exists
-    if (block.has_children && !block[block.type].children) {
-      block[block.type]["children"] = childBlocks.find((x) => x.id === block.id)?.children;
-    }
-    return block;
-  });
-
-  return {
-    props: {
-      page,
-      blocks: blocksWithChildren
-    },
-    revalidate: 1,
-  };
-};
+export const getStaticProps = getStaticPropsPost;
