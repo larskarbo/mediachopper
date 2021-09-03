@@ -5,20 +5,25 @@ import Button from "../components/Button";
 import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
 import { QuickSeo } from "next-quick-seo";
+import axios from "axios";
+import { endsWith } from "lodash";
 
-// export const getStaticProps = async () => {
-//   const database = await getDatabase();
+export const getStaticProps = async () => {
+  const latest_release = await axios
+    .get("https://api.github.com/repos/larskarbo/mc-releases/releases/latest")
+    .then((res) => res.data);
 
-//   return {
-//     props: {
-//       posts: database,
-//     },
-//     revalidate: 1,
-//   };
-// };
+  return {
+    props: {
+      latest_release: latest_release,
+    },
+    revalidate: 1,
+  };
+};
 
-
-export default function Index() {
+export default function Index({ latest_release }) {
+  console.log("latest_release: ", latest_release);
+  const macRelease = latest_release?.assets.find((asset) => endsWith(asset.name, ".dmg"));
   const [showSeg, setShowSeg] = useState(true);
 
   return (
@@ -71,28 +76,28 @@ export default function Index() {
       </div>
 
       <div className=" py-8">
-        <h2 id="download" className="text-3xl font-extrabold text-center tracking-tight mb-4">Download</h2>
+        <h2 id="download" className="text-3xl font-extrabold text-center tracking-tight mb-4">
+          Download
+        </h2>
         <div className="flex gap-12">
           <div className=" flex justify-center items-center flex-col">
             <img src="/icon.png" className="w-32" />
             <div className="font-bold text-center mt-2 text-xs">MediaChopper.app</div>
           </div>
           <div className="text-sm">
-            <p>Current version: v1.0.1</p>
+            <p>Current version: v{latest_release?.name}</p>
             <div className="flex gap-4">
-              <Button className="my-2" icon={<FaDownload />}>
-                Mac (Intel)
-              </Button>
-              <Button className="my-2" icon={<FaDownload />}>
-                Mac (arm)
-              </Button>
+              {macRelease && (
+                <a download href={macRelease.browser_download_url}>
+                  <Button className="my-2" icon={<FaDownload />}>
+                    Mac
+                  </Button>
+                </a>
+              )}
             </div>
             <div className="flex gap-4">
-              <Button className="my-2" icon={<FaDownload />}>
-                Windows (64-bit)
-              </Button>
-              <Button className="my-2" icon={<FaDownload />}>
-                Windows (32-bit)
+              <Button disabled className="my-2" icon={<FaDownload />}>
+                Windows (coming soon)
               </Button>
             </div>
           </div>

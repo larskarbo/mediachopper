@@ -9,29 +9,26 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
+import path from 'path';
+import 'regenerator-runtime/runtime';
+import { initExtra } from './extra';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import { initExtra } from './extra';
 
 export default class AppUpdater {
   constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
 
-initExtra()
+initExtra();
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  
+
   event.reply('ipc-example', msgTemplate('pong'));
 });
 
