@@ -31,7 +31,7 @@ export default function Layout({ children }) {
       <div className="absolute top-1 right-2 z-10 text-gray-400 flex gap-2 text-xs">
         <div>version {version}</div>
         <a
-          className="hover:underline"
+          className="hover:underline mx-4"
           target="_blank"
           href="https://mediachopper.io" rel="noreferrer"
         >
