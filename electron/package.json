@@ -16,7 +16,8 @@
     "start": "node -r @babel/register ./.erb/scripts/check-port-in-use.js && yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ./.erb/scripts/babel-register ./src/main/main.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config ./.erb/configs/webpack.config.renderer.dev.babel.js",
-    "test": "jest"
+    "test": "jest",
+    "version-bump": "bump patch package.json README.md build/app/package.json"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -31,10 +32,6 @@
     "*.{html,md,yml}": [
       "prettier --ignore-path .eslintignore --single-quote --write"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/larskarbo/mediachopper.git"
   },
   "author": {
     "name": "Lars Karbo"

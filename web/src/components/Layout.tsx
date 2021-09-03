@@ -8,12 +8,22 @@ export function Layout({ children }) {
       <div className="w-full bg-gray-800 border-b border-gray-500 mb-12">
         <div className="max-w-4xl px-8 py-4 mx-auto flex w-full justify-between items-center">
           <div className="flex items-center">
-            <Link href="/"><a><img src={"/chopper.svg"} className="w-16" /></a></Link>
-            <div className="text-2xl font-light mx-8">
-              MediaChopper
-            </div>
+            <Link href="/">
+              <a>
+                <img src={"/chopper.svg"} className="w-16" />
+              </a>
+            </Link>
+            <div className="text-2xl font-light mx-8">MediaChopper</div>
           </div>
-          <a className="font-semibold mt-2 text-red-300">Download now</a>
+          <div className="flex items-center gap-16">
+            <Link href="/blog">
+              <a className="text-sm hover:underline ">Blog</a>
+            </Link>
+            
+            <Link href="/#download">
+              <a className="font-semibold text-white bg-blue-600 px-4 py-2 rounded shadow text-sm ">Download now</a>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="w-full">

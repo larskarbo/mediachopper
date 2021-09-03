@@ -1,5 +1,7 @@
 # MediaChopper
 
+This is version `1.2.2`
+
 
 dev:
 

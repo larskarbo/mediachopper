@@ -6,6 +6,18 @@ import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
 import { QuickSeo } from "next-quick-seo";
 
+// export const getStaticProps = async () => {
+//   const database = await getDatabase();
+
+//   return {
+//     props: {
+//       posts: database,
+//     },
+//     revalidate: 1,
+//   };
+// };
+
+
 export default function Index() {
   const [showSeg, setShowSeg] = useState(true);
 
@@ -59,7 +71,7 @@ export default function Index() {
       </div>
 
       <div className=" py-8">
-        <h2 className="text-3xl font-extrabold text-center tracking-tight mb-4">Download</h2>
+        <h2 id="download" className="text-3xl font-extrabold text-center tracking-tight mb-4">Download</h2>
         <div className="flex gap-12">
           <div className=" flex justify-center items-center flex-col">
             <img src="/icon.png" className="w-32" />
