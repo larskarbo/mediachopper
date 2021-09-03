@@ -150,7 +150,7 @@ export default function Index({ latest_release }) {
           <div>
             <div className="text-xl my-8 font-bold tracking-tight">… become this</div>
             <img className="rounded border border-gray-400" src={`/comparer/this2seg.png`} />
-            <div className="p-1 text-sm text-gray-300">Splitted files with "clip" as basename</div>
+            <div className="p-1 text-sm text-gray-300">Splitted files with &quot;clip&quot; as basename</div>
           </div>
         </div>
 
