@@ -40,8 +40,8 @@ module.exports = {
   win: {
     target: ['nsis'],
     extraResources: [ 
-      'node_modules/ffprobe-static/bin/win/${arch}/ffprobe',//TODO test
-      'node_modules/ffmpeg-static/ffmpeg',
+      'node_modules/ffprobe-static/bin/win32/${arch}/ffprobe.exe',//TODO test
+      'node_modules/ffmpeg-static/ffmpeg.exe',
     ],
   },
   linux: {
