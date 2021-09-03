@@ -1,12 +1,10 @@
-import clsx from "clsx";
-import { useState } from "react";
+import axios from "axios";
+import { endsWith } from "lodash";
+import { QuickSeo } from "next-quick-seo";
 import { FaDownload } from "react-icons/fa";
 import Button from "../components/Button";
 import MemoResolveIcon from "../components/icons/ResolveIcons";
 import { Layout } from "../components/Layout";
-import { QuickSeo } from "next-quick-seo";
-import axios from "axios";
-import { endsWith } from "lodash";
 
 export const getStaticProps = async () => {
   const latest_release = await axios
@@ -24,7 +22,6 @@ export const getStaticProps = async () => {
 export default function Index({ latest_release }) {
   console.log("latest_release: ", latest_release);
   const macRelease = latest_release?.assets.find((asset) => endsWith(asset.name, ".dmg"));
-  const [showSeg, setShowSeg] = useState(true);
 
   return (
     <Layout>
