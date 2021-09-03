@@ -1,7 +1,7 @@
 {
   "name": "media-chopper",
   "productName": "MediaChopper",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Program to chop media!",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
