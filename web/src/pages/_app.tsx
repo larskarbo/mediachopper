@@ -7,7 +7,7 @@ import "../styles.css";
 import "../tailwind.css";
 import { fetcher } from "../utils/request";
 
-function MyApp({ Component, pageProps, config }) {
+function MyApp({ Component, pageProps }) {
   return (
     <>
       <SWRConfig

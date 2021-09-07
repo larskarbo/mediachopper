@@ -1,6 +1,9 @@
 module.exports = {
   purge: {
-    content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    content: [
+      "./src/**/*.{js,jsx,ts,tsx}",
+      "./node_modules/@larskarbo/cms-tools/dist/index.js"
+    ],
   },
   darkMode: false, // or 'media' or 'class'
   variants: {
