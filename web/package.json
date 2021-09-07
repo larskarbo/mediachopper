@@ -2,7 +2,7 @@
   "version": "0.5.0",
   "scripts": {
     "start": "next dev",
-    "build": "cp ../.env .env && next build",
+    "build": "next build",
     "buildnexport": "next build && next export",
     "startserver": "next start",
     "export": "next export",
