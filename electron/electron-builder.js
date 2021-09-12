@@ -62,6 +62,7 @@ module.exports = {
     provider: 'github',
     publishAutoUpdate: true,
     owner: 'larskarbo',
+    releaseType: 'release',
     repo: 'mc-releases',
   },
 };
