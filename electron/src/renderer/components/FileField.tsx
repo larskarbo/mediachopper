@@ -13,7 +13,7 @@ export function FileField({
 }) {
   return (
     <VinciFormField
-      className={clsx('flex items-center text-xs py-2 gap-2 pr-8  ')}
+      className={clsx('flex items-center text-base py-2 gap-2 pr-8  ')}
       label={text}
     >
       <input {...getInputProps()} />

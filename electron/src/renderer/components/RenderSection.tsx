@@ -135,7 +135,7 @@ export default function RenderSection({
             <div className="text-gray-300">
               {' '}
               {filteredSegments.length} files:{' '}
-              <span className="italic  text-xs">
+              <span className="italic  text-sm">
                 {outputFilenames.join(', ')}
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function RenderSection({
             <>
               <div>
                 {progress?.currentFile && (
-                  <span className="italic text-xs">
+                  <span className="italic text-sm">
                     Rendering: {progress.currentFile}
                   </span>
                 )}

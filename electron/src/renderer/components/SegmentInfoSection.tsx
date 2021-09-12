@@ -129,7 +129,7 @@ export default function SegmentInfoSection({ video, setSegments, segments }: { v
         {...getRootProps()}
         onClick={() => {}}
       >
-        <p className="text-xs px-8 mb-2">
+        <p className="text-sm px-8 mb-2">
           Currently we only support <strong>Edit Index</strong> export from{' '}
           <strong>DaVinci Resolve</strong>
         </p>
@@ -167,12 +167,12 @@ export default function SegmentInfoSection({ video, setSegments, segments }: { v
                 <thead className="w-full flex">
                   <tr className="px-2 border-b border-gray-800">
                     <th className="w-8">#</th>
-                    <th className="w-28">From</th>
-                    <th className="w-28">To</th>
-                    <th className="w-16">Duration</th>
-                    <th className="w-16">Type</th>
-                    <th className="w-48">Text</th>
-                    <th className="w-16">Select</th>
+                    <th className="w-28 text-left">From</th>
+                    <th className="w-28 text-left">To</th>
+                    <th className="w-16 text-right">Duration</th>
+                    <th className="w-16 text-right">Type</th>
+                    <th className="w-48 text-right">Text</th>
+                    <th className="w-16 text-right">Select</th>
                   </tr>
                 </thead>
                 <tbody
@@ -190,14 +190,14 @@ export default function SegmentInfoSection({ video, setSegments, segments }: { v
                       key={i}
                     >
                       <td className="w-8">{i}</td>
-                      <td className="w-28">{segment.fromTime}</td>
-                      <td className="w-28">{segment.toTime}</td>
-                      <td className="w-16">{roundTo(segment.duration, 1)} s</td>
-                      <td className="w-16">{segment.type}</td>
-                      <td className="w-48">{segment.text}</td>
-                      <td className="w-16">
+                      <td className="w-28 text-left">{segment.fromTime}</td>
+                      <td className="w-28 text-left">{segment.toTime}</td>
+                      <td className="w-16 text-right">{roundTo(segment.duration, 1)} s</td>
+                      <td className="w-16 text-right">{segment.type}</td>
+                      <td className="w-48 text-right">{segment.text}</td>
+                      <td className="w-16 text-right">
                         {tcToSeconds(segment.to) > video.stream.duration ? 
-                        <div className="text-xs">⚠️</div>
+                        <div className="text-sm">⚠️</div>
                       :
                         <input
                           type="checkbox"

@@ -28,7 +28,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <div className="absolute top-1 right-2 z-10 text-gray-400 flex gap-2 text-xs">
+      <div className="absolute top-1 right-2 z-10 text-gray-400 flex gap-2 text-sm">
         <div>version {version}</div>
         <a
           className="hover:underline mx-4"
@@ -47,7 +47,7 @@ export default function Layout({ children }) {
               <Link key={t.path} href={t.path}>
                 <button
                   className={clsx(
-                    'w-36 h-full flex flex-col border-b-2 justify-around pt-1 items-center text-xs group',
+                    'w-36 h-full flex flex-col border-b-2 justify-around pt-1 items-center text-sm group',
                     active
                       ? ' border-red-600'
                       : 'border-transparent hover:border-gray-700'

@@ -73,7 +73,7 @@ export default function SourceVideoSection({
         {...getRootProps()}
         onClick={() => {}}
       >
-        <p className="text-xs px-8 mb-2">
+        <p className="text-sm px-8 mb-2">
           The video file that you want to batch split. (mp4, mov, avi, etc...)
         </p>
         <FileField
