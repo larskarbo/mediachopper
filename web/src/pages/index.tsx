@@ -22,6 +22,7 @@ export const getStaticProps = async () => {
 export default function Index({ latest_release }) {
   console.log("latest_release: ", latest_release);
   const macRelease = latest_release?.assets.find((asset) => endsWith(asset.name, ".dmg"));
+  const winRelease = latest_release?.assets.find((asset) => endsWith(asset.name, ".exe"));
 
   return (
     <Layout>
@@ -93,9 +94,13 @@ export default function Index({ latest_release }) {
               )}
             </div>
             <div className="flex gap-4">
-              <Button disabled className="my-2" icon={<FaDownload />}>
-                Windows (coming soon)
-              </Button>
+            {winRelease && (
+                <a download href={winRelease.browser_download_url}>
+                  <Button className="my-2" icon={<FaDownload />}>
+                    Windows
+                  </Button>
+                </a>
+              )}
             </div>
           </div>
         </div>
