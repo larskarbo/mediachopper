@@ -25,8 +25,8 @@ export default function VinciSelect({
         <div className="relative">
           <Listbox.Button
             className={clsx(
-              'relative w-full pl-3 pr-10 text-left border h-7 border-black text-gray-300 rounded-sm bg-gray-700 ',
-              ' cursor-default text-xs',
+              'relative w-full pl-3 pr-10 text-left border h-8 border-black text-gray-300 rounded-sm bg-gray-700 ',
+              ' cursor-default text-sm',
               'focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500'
             )}
           >
