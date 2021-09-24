@@ -106,10 +106,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@larskarbo/cms-tools@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@larskarbo/cms-tools/-/cms-tools-1.0.2.tgz#2cee8dabf18429c4b9b89ecf46d21f504908f8e4"
-  integrity sha512-40IyOn2ozdcVC8u7pgu4/Ikf3nJeefFz4Wmorp0QVkyNUYbZ69tiK403YyfZnA1HIKFlb9rQ5buMAJ3OqRVj/w==
+"@larskarbo/cms-tools@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@larskarbo/cms-tools/-/cms-tools-1.0.3.tgz#8efb02441abae47cf286179593eec4129ed54cf4"
+  integrity sha512-bMuenDGYgHb5ASul6g9Bxaeth1aEVZfNlBg9zJyLGjlyYiXRt+5HrOguiH5MO6sWSUAihPHik1JFd+22892FZQ==
   dependencies:
     "@notionhq/client" "^0.3.1"
     force-env "^1.0.2"
