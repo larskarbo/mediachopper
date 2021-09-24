@@ -1,8 +1,6 @@
 {
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
     "start": "vercel dev",
     "preinstall": "echo \"Don't add packages here\" && exit 1"

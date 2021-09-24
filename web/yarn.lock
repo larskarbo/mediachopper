@@ -106,13 +106,14 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@larskarbo/cms-tools@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@larskarbo/cms-tools/-/cms-tools-1.0.1.tgz#3a2fe76a70988a1813c90811961a8b5760b4c8f0"
-  integrity sha512-MhNM23SUasKf3EWhExnMr40/z0MS3g8Pb8Q8r8txdf1sFQy8Ef6LnDlBLIcBlVF5y5PV4CO9UhQ/FMY/P4jN7g==
+"@larskarbo/cms-tools@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@larskarbo/cms-tools/-/cms-tools-1.0.2.tgz#2cee8dabf18429c4b9b89ecf46d21f504908f8e4"
+  integrity sha512-40IyOn2ozdcVC8u7pgu4/Ikf3nJeefFz4Wmorp0QVkyNUYbZ69tiK403YyfZnA1HIKFlb9rQ5buMAJ3OqRVj/w==
   dependencies:
     "@notionhq/client" "^0.3.1"
     force-env "^1.0.2"
+    get-error-message "^1.0.1"
 
 "@napi-rs/triples@^1.0.3":
   version "1.0.3"
@@ -1494,6 +1495,11 @@ get-error-message@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/get-error-message/-/get-error-message-1.0.0.tgz#4c089e844a3f3dfd4de404d8bc5e35c8808f4d02"
   integrity sha512-r6idMFXHMHY1Z0byAfgWeEMfsN0eYgUJySNbZmpKRbK9lNxGp1pQVjvFk3loqC4jcGISrFDucNG4h2RQQr7UGA==
+
+get-error-message@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/get-error-message/-/get-error-message-1.0.1.tgz#e688f5dfad6dc0d3fea3f2db07e0a31715e10853"
+  integrity sha512-Ksghp1/+eVQmL9hM9FacGa6t6qlk/OnfGO+4bfqJ2C9IwJ+YYtKKi9FSiaouaZn1Dezd4szAYdM67fSrd6mnyw==
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
   version "1.1.1"
